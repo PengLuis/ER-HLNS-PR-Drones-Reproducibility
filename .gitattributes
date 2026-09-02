@@ -1,0 +1,6 @@
+# Preserve byte-identical release assets for SHA-256 validation on every platform.
+data/real_maps_final/R_DJ_C/final/r_dj_c_drive_cleaned.graphml -text
+data/real_maps_final/R_DJ_C/final/r_dj_c_poi_candidates.json -text
+data/real_maps_final/R_DJ_C/final/r_dj_c_fixed_tasks.json -text
+tools/prepare_dujiangyan_real_case.py -text
+source_data/*.gz -text
