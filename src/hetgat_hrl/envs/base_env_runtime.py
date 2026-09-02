@@ -1,0 +1,216 @@
+from __future__ import annotations
+
+from typing import Dict, List, Optional, Tuple
+
+
+def init_base_env_runtime_state(env) -> None:
+            env.comm_blocked: Dict[str, bool] = {aid: False for aid in env.state.agents}
+            env.task_attention_slots: int = 6
+            env.task_feat_dim: int = 5
+            env.follow_bind_count_total: int = 0
+            env.follow_steps_total: int = 0
+            env.follow_charge_energy_total: float = 0.0
+            env.low_battery_events_total: int = 0
+            env.low_battery_return_success_total: int = 0
+            env.uav_energy_used_total: float = 0.0
+            env.crash_count_total: int = 0
+            env.battery_depletion_count_total: int = 0
+            env.invalid_action_count_total: int = 0
+            env.invalid_action_count_uav_total: int = 0
+            env.invalid_action_count_truck_total: int = 0
+            env.planner_candidate_invalid_count_total: int = 0
+            env.pre_dispatch_rejected_count_total: int = 0
+            env.pre_dispatch_repair_success_count_total: int = 0
+            env.safe_noop_fallback_count_total: int = 0
+            env.environment_invalid_action_count_total: int = 0
+            env.invalid_action_records: List[object] = []
+            env._last_uav_invalid_reason: Dict[str, str] = {}
+            env.forced_rth_count_total: int = 0
+            env.queue_wait_steps_total: int = 0
+            env._uav_low_battery_flag: Dict[str, bool] = {}
+            env._uav_forced_rth_latch: Dict[str, bool] = {}
+            env._uav_forced_rth_start_step: Dict[str, int] = {}
+            env._recommended_goals: Dict[str, Optional[str]] = {}
+            env._effective_goals: Dict[str, Optional[str]] = {}
+            # B-only route-stability bookkeeping.  This is intentionally
+            # separate from the communication-blackout state: it records the
+            # short commitment window for a still-valid truck routine goal.
+            env._b_route_stability_goal_step: Dict[str, int] = {}
+            env._pbrs_lock: Dict[str, Tuple[Optional[str], Optional[float]]] = {}
+            env._pbrs_switch_total: int = 0
+            # task_id -> uav_id, consumed on next step to realize "340m next-round snap"
+            env._uav_emergency_snap_pending: Dict[str, str] = {}
+            env._uav_discovered_blocked_edges: set = set()
+            env._uav_discovered_blocked_total: int = 0
+            env.uav_delivered_tasks_total: int = 0
+            env.uav_delivered_emergency_total: int = 0
+            env.truck_delivered_tasks_total: int = 0
+            env.sortie_limit_hit_total: int = 0
+            env.wind_failure_event_total: int = 0
+            env.wind_failure_risk_accum_total: float = 0.0
+            env.triggered_replans_total: int = 0
+            env.triggered_replans_step: int = 0
+            env.last_assignment_summary: Dict[str, int] = {"assigned_total": 0, "assigned_truck": 0, "assigned_uav": 0}
+            env.truck_replenish_count_total: int = 0
+            env.truck_empty_trip_count_total: int = 0
+            env.uav_reload_count_total: int = 0
+            env.uav_reload_wait_steps_total: int = 0
+            env.uav_empty_flight_count_total: int = 0
+            env.uav_delivery_count_total: int = 0
+            env.normal_tasks_blocked_by_supply_count: int = 0
+            env.emergency_tasks_blocked_by_supply_count: int = 0
+            env.uav_recharge_count_total: int = 0
+            env.uav_safe_launch_count_total: int = 0
+            env.uav_launch_count_total: int = 0
+            env.uav_launch_battery_fraction_sum: float = 0.0
+            env.uav_launch_battery_fraction_min: float = 1.0
+            env.uav_unsafe_launch_attempt_count_total: int = 0
+            env.uav_unsafe_launch_block_count_total: int = 0
+            env.uav_low_battery_illegal_launch_count_total: int = 0
+            env.uav_forced_recovery_count_total: int = 0
+            env.uav_forced_recovery_due_to_low_battery_count_total: int = 0
+            # Hard-guard rescue count: UAV reached terminal battery but was rescued
+            # by safety guard/recovery corridor instead of being marked crashed.
+            env.uav_terminal_battery_rescue_count_total: int = 0
+            env.uav_rendezvous_success_count_total: int = 0
+            env.uav_rendezvous_fail_count_total: int = 0
+            env.truck_recovery_support_count_total: int = 0
+            # Round-2 diagnostics: emergency/island serviceability bottleneck counters.
+            env.uav_task_reject_below_launch_min_count: int = 0
+            env.uav_task_reject_not_loaded_count: int = 0
+            env.uav_task_reject_recovery_margin_count: int = 0
+            env.uav_task_reject_horizon_count: int = 0
+            env.uav_task_reject_comm_block_count: int = 0
+            env.uav_task_reject_corridor_count: int = 0
+            env.uav_launch_direct_safe_count: int = 0
+            env.uav_launch_rendezvous_safe_count: int = 0
+            env.uav_launch_rendezvous_safe_relaxed_count: int = 0
+            env.uav_launch_block_unsafe_count: int = 0
+            env.uav_launch_gate_enter_count: int = 0
+            env.uav_launch_gate_direct_safe_count: int = 0
+            env.uav_launch_gate_rendezvous_safe_count: int = 0
+            env.uav_launch_gate_rendezvous_safe_relaxed_count: int = 0
+            env.uav_launch_gate_block_below_launch_min_count: int = 0
+            env.uav_launch_gate_block_recovery_margin_count: int = 0
+            env.uav_launch_gate_block_corridor_count: int = 0
+            env.uav_launch_gate_block_other_count: int = 0
+            env.truck_emergency_blocked_by_normal_guard_count: int = 0
+            env.truck_emergency_relief_override_count: int = 0
+            env.truck_emergency_serviceable_count: int = 0
+            env.truck_emergency_not_serviceable_count: int = 0
+            env.island_task_candidate_count: int = 0
+            env.island_task_serviceable_count: int = 0
+            env.island_task_launch_block_count: int = 0
+            env._diag_uav_task_reject_seen_step: set = set()
+            env._diag_truck_emergency_relief_seen_step: set = set()
+            env._diag_truck_emergency_serviceability_seen_step: set = set()
+            env._island_task_ids_seen: set = set()
+            env.island_task_completed_count_total: int = 0
+            env.truck_forward_support_count_total: int = 0
+            env.truck_forward_support_distance_total: float = 0.0
+            env.truck_uav_assist_waypoint_move_count_total: int = 0
+            env._planner_truck_assist_waypoint_by_truck: Dict[str, Dict[str, object]] = {}
+            env._erc_v2_command_gate_enabled: bool = False
+            env._erc_v2_command_batch = None
+            env.unauthorized_support_attempt_count: int = 0
+            env.unauthorized_support_blocked_count: int = 0
+            env.unauthorized_recovery_attempt_count: int = 0
+            env.unauthorized_recovery_blocked_count: int = 0
+            env.command_rejected_count: int = 0
+            env.command_rejected_reason_launch_unauthorized_count: int = 0
+            env.support_command_count: int = 0
+            env.support_command_to_launch_count: int = 0
+            env.support_command_to_delivery_count: int = 0
+            env.safety_recovery_command_count: int = 0
+            env.routine_near_completion_protected_count: int = 0
+            env.routine_near_completion_support_blocked_count: int = 0
+            env.routine_near_completion_recovery_blocked_count: int = 0
+            env.routine_near_completion_broken_by_hard_safety_count: int = 0
+            env.routine_near_completion_broken_by_tc_override_count: int = 0
+            env.routine_near_completion_tc_override_to_launch_count: int = 0
+            env.routine_near_completion_tc_override_to_delivery_count: int = 0
+            env.routine_near_completion_blocked_tc_support_count: int = 0
+            env.routine_near_completion_followed_by_service_start_count: int = 0
+            env.routine_near_completion_followed_by_completion_count: int = 0
+            env.routine_near_completion_tc_override_reject_delay_count: int = 0
+            env.routine_near_completion_tc_override_reject_no_loaded_uav_count: int = 0
+            env.routine_near_completion_tc_override_reject_no_candidate_count: int = 0
+            env.routine_near_completion_tc_override_reject_not_near_launchable_count: int = 0
+            env.routine_near_completion_tc_override_reject_recovery_count: int = 0
+            env.routine_near_completion_broken_by_delivery_feasible_tc_override_count: int = 0
+            env.tc_override_candidate_count: int = 0
+            env.tc_override_blocked_not_full_sortie_feasible_count: int = 0
+            env.tc_override_blocked_low_recovery_margin_count: int = 0
+            env.tc_override_blocked_low_battery_margin_count: int = 0
+            env.tc_override_blocked_recent_reject_count: int = 0
+            env.tc_override_blocked_lifeline_risk_count: int = 0
+            env.tc_override_blocked_routine_delay_count: int = 0
+            env.tc_override_to_launch_count: int = 0
+            env.tc_override_to_delivery_count: int = 0
+            env.tc_override_to_forced_recovery_count: int = 0
+            env.tc_override_feasibility_mismatch_count: int = 0
+            env.tc_override_predicted_launchable_count: int = 0
+            env.tc_override_actual_launch_count: int = 0
+            env.tc_override_predicted_delivery_feasible_count: int = 0
+            env.tc_override_actual_delivery_count: int = 0
+            env._tc_override_recent_tasks: Dict[str, int] = {}
+            env._tc_override_trace_rows: List[Dict[str, object]] = []
+            env._tc_override_recent_reject: Dict[Tuple[str, str], int] = {}
+            env._routine_protection_recent_tasks: Dict[str, int] = {}
+            env._routine_tc_override_recent_tasks: Dict[str, int] = {}
+            env.uav_island_delivery_count_total: int = 0
+            env.uav_island_recovery_success_count_total: int = 0
+            env.relaxed_sortie_selected_count_total: int = 0
+            env.relaxed_delivery_completed_count_total: int = 0
+            env.uav_docked_retarget_count_total: int = 0
+            env.uav_docked_retarget_count_step: int = 0
+            env.uav_urgent_watchdog_assign_count_total: int = 0
+            env.uav_urgent_watchdog_assign_count_step: int = 0
+            env._uav_last_docked_retarget_step: Dict[str, int] = {}
+            env._uav_docked_goal_hold_steps: Dict[str, int] = {}
+            env._uav_docked_goal_hold_task: Dict[str, Optional[str]] = {}
+            # Forced island controls (optional): selected emergency task nodes are
+            # physically isolated from road graph to guarantee UAV-only access tests.
+            env._forced_island_edge_keys: set = set()
+            env._forced_island_task_ids: set = set()
+            env._uav_post_bind_dwell_remaining: Dict[str, int] = {}
+            env._uav_bind_commit_target: Dict[str, Optional[str]] = {}
+            env._uav_bind_commit_until_step: Dict[str, int] = {}
+            env._uav_recovery_requested_truck: Dict[str, str] = {}
+            env._uav_transfer_target_truck: Dict[str, str] = {}
+            env._uav_transfer_target_task: Dict[str, str] = {}
+            env._uav_post_transfer_contract_task: Dict[str, str] = {}
+            env.uav_transfer_launch_count_total: int = 0
+            env.uav_transfer_bind_count_total: int = 0
+            env.initial_route_docked_uav_count: int = 0
+            env._initial_route_docked_truck_by_uav: Dict[str, str] = {}
+            env._uav_last_launch_reason: Dict[str, str] = {}
+            env._uav_sortie_relaxed_latch: Dict[str, bool] = {}
+            env._uav_launch_block_cooldown_until_step: Dict[str, int] = {}
+            # Stage-C shared road awareness map (shared cognition layer).
+            env._shared_known_blocked_edges: set = set()
+            env._shared_map_update_event_step: bool = False
+            env._shared_map_update_count_total: int = 0
+            env._shared_map_new_blocked_step: int = 0
+            env._shared_map_new_blocked_total: int = 0
+            env._shared_map_cleared_step: int = 0
+            env._shared_map_cleared_total: int = 0
+            env._shared_discovery_uav_step: int = 0
+            env._shared_discovery_uav_total: int = 0
+            env._shared_discovery_truck_step: int = 0
+            env._shared_discovery_truck_total: int = 0
+            env._unknown_blocked_edge_hit_step: int = 0
+            env._unknown_blocked_edge_hit_total: int = 0
+            env._shared_last_update_reason: str = "none"
+            # Island-task detection cache (step-local tokenized memoization).
+            env._cached_island_task_ids_token: Optional[Tuple[int, int, int, int]] = None
+            env._cached_island_task_ids: set = set()
+            # Step-level shortest-path memoization for decision graph queries.
+            env._decision_sp_cache_token: Optional[Tuple[int, int, int, int, int]] = None
+            env._decision_sp_cache: Dict[Tuple[int, int], float] = {}
+            env._truck_last_arrived_from: Dict[str, Optional[int]] = {}
+            # Planner-side replan evidence counters (env as single source for exports).
+            env.planner_replan_due_to_new_road_info_count_total: int = 0
+            env.planner_refresh_map_update_step: bool = False
+            env.planner_last_replan_reason: str = "none"
+            env._init_shared_road_awareness_state()

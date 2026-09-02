@@ -1,0 +1,46 @@
+{
+  "reported_method": "ER-HLNS-PR",
+  "paired_seeds": [
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109
+  ],
+  "parallel_rescue_overlay": {
+    "mixed_coverage_emergency_reserve_steps": 30,
+    "routine_dynamic_reassignment_radius_m": 800.0,
+    "routine_dynamic_reassignment_min_eta_gain_steps": 3.0,
+    "routine_dynamic_reassignment_min_eta_gain_ratio": 0.2,
+    "routine_dynamic_reassignment_max_transfers": 1,
+    "stalled_queue_rescue_steps": 18,
+    "stalled_queue_anchor_timeout_steps": 18,
+    "queue_rescue_launch_timeout_steps": 4,
+    "maximum_active_rescues": 3
+  },
+  "event_and_route_parameters": {
+    "decision_interval_steps": 5,
+    "replan_cooldown_steps": 4,
+    "low_value_event_budget_per_window": 1,
+    "max_no_refresh_steps": 5,
+    "noop_event_cooldown_steps": 12,
+    "detour_trigger_ratio": 1.35,
+    "anchor_candidate_cap": 320,
+    "backup_anchor_count": 3,
+    "uav_road_scout_radius_m": 340.0,
+    "truck_road_scout_radius_m": 220.0
+  },
+  "comparator_definitions": {
+    "PG": "priority/deadline/distance greedy",
+    "Greedy": "nearest currently eligible task",
+    "C-ALNS": "interval-only canonical ALNS",
+    "DR-ALNS": "canonical ALNS with road/task/goal triggers and interval fallback",
+    "C-ALNS-MP": "C-ALNS with the leading mission-priority rank matched; route representation remains method-native",
+    "TO": "zero UAVs; truck emergency-service eligibility remains false"
+  }
+}

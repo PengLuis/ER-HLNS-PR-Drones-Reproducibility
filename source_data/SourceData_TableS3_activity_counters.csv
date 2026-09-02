@@ -1,0 +1,6 @@
+scenario,repair_calls_mean,installed_repairs_mean,latency_calls_mean,median_latency_ms_mean,p95_latency_ms_mean,objective_evaluations_mean,search_iterations_mean,triggered_replans_mean
+M,3.1,3.1,4.1,42.82,142.31,407.5,16.4,26.8
+MB,3.6,3.6,4.6,107.48,220.65,510.4,18.4,22.8
+L,9.8,9.8,10.8,67.71,515.79,1247.0,43.2,101.6
+LB,62.3,62.3,63.3,68.61,1126.12,3135.1,58.8,59.5
+RB,25.1,25.1,26.1,462.55,1143.84,1766.6,46.0,63.0

@@ -1,0 +1,12 @@
+contrast,metric,n_pairs,target_mean,baseline_mean,paired_mean_difference,bootstrap_interval_method,bootstrap_interval_95_low,bootstrap_interval_95_high,exact_two_sided_sign_flip_p,wins,ties,losses,better_direction
+E4_suffix_local_minus_global_reauction,route_edit_distance,10,68.8,73.7,-4.9,paired_seed_percentile_bootstrap_10000,-12.1,1.3,0.24609375,5,1,4,lower
+E4_suffix_local_minus_global_reauction,owner_churn,10,8.8,18.1,-9.3,paired_seed_percentile_bootstrap_10000,-14.9,-4.8,0.001953125,10,0,0,lower
+E4_suffix_local_minus_global_reauction,execution_rebind,10,8.8,18.2,-9.4,paired_seed_percentile_bootstrap_10000,-15.1,-4.8,0.001953125,10,0,0,lower
+E4_suffix_local_minus_global_reauction,invalidated_commitment_count,10,3.4,3.5,-0.1,paired_seed_percentile_bootstrap_10000,-1.1,0.7,1.0,1,7,2,lower
+E4_suffix_local_minus_global_reauction,recovery_plan_change_count,10,0.0,0.0,0.0,paired_seed_percentile_bootstrap_10000,0.0,0.0,1.0,0,10,0,lower
+E4_suffix_local_minus_global_reauction,recovery_plan_invalidation_count,10,0.0,0.0,0.0,paired_seed_percentile_bootstrap_10000,0.0,0.0,1.0,0,10,0,lower
+E4_suffix_local_minus_global_reauction,claimed_protected_changed,10,0.0,0.2,-0.2,paired_seed_percentile_bootstrap_10000,-0.5,0.0,0.5,2,8,0,lower
+E4_suffix_local_minus_global_reauction,airborne_protected_changed,10,0.7,1.0,-0.3,paired_seed_percentile_bootstrap_10000,-1.5,1.2,0.75,4,5,1,lower
+E4_suffix_local_minus_global_reauction,repeated_reassigned_task_count,10,2.4,4.8,-2.4,paired_seed_percentile_bootstrap_10000,-4.3,-0.8,0.03125,6,3,1,lower
+E4_suffix_local_minus_global_reauction,reassignment_events_beyond_first,10,3.6,10.3,-6.7,paired_seed_percentile_bootstrap_10000,-11.5,-2.7,0.013671875,8,0,2,lower
+E4_suffix_local_minus_global_reauction,repair_wall_ms,10,20659.416280000012,21282.003719999855,-622.5874399998438,paired_seed_percentile_bootstrap_10000,-3195.888589999513,1805.4471500001616,0.634765625,5,0,5,lower

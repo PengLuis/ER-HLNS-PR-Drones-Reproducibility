@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+reproduced/
+rerun/
+rerun_rb/
+rb_smoke/
+*.egg-info/
+.DS_Store
+
+# The uncompressed ledger exceeds GitHub's 100 MB blob limit.
+source_data/SourceData_E4_execution_mechanism_rows.csv
