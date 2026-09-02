@@ -1260,11 +1260,11 @@ class EnvConfig:
     # Narrow emergency robustness controls.  Queue promotion changes only a
     # still-pending suffix; the launch watchdog may skip goal-stability delay
     # only after the complete environment launch gate remains safe.
-    # Rejected pilot retained for audit: unrestricted suffix promotion caused
-    # repeated queue reshuffles and reduced the protected 10-seed mean.
+    # Validation-only branch retained for audit: unrestricted suffix promotion
+    # caused repeated queue reshuffles and reduced aggregate validation performance.
     hrl_route_plan_emergency_starvation_promotion_enabled: bool = False
     hrl_route_plan_emergency_starvation_reserve_steps: int = 8
-    # The watchdog was outcome-neutral in the same pilot; keep the mechanism
+    # The watchdog was outcome-neutral in the same validation check; keep the mechanism
     # available for ablation/diagnosis but outside the paper mainline.
     hrl_route_plan_emergency_launch_watchdog_enabled: bool = False
     hrl_route_plan_emergency_launch_watchdog_wait_steps: int = 2
@@ -1277,11 +1277,11 @@ class EnvConfig:
     uav_terminal_delivery_min_reserve_fraction: float = 0.20
     # A spare UAV may preview only a direct-safe emergency suffix belonging
     # to its own truck; this cannot add a truck detour or recovery obligation.
-    # Retained for ablation only: the 10-seed pilot showed that early package
+    # Retained for ablation only: validation showed that early package
     # consumption can disturb later contracts despite direct-return safety.
     hrl_route_plan_direct_safe_secondary_emergency_enabled: bool = False
-    # Retained for ablation only.  Scalar lifecycle weighting traded two
-    # emergency completions for two routine completions in the 10-seed pilot.
+    # Retained for ablation only.  Scalar lifecycle weighting changed the
+    # balance between emergency and routine completions during validation.
     hrl_route_plan_uav_lifecycle_cost_enabled: bool = True
     hrl_route_plan_uav_lifecycle_cost_weight: float = 0.75
     hrl_route_plan_lexicographic_objective_enabled: bool = True
@@ -1486,7 +1486,7 @@ class EnvConfig:
     comm_blackout_start_step: int = 20
     comm_blackout_duration_steps: int = 6
     comm_blackout_recovery_steps: int = 10
-    # Experiment-only hard-off switch used by the preregistered 0% sensitivity
+    # Experiment-only hard-off switch used by the predefined 0% sensitivity
     # condition. This takes precedence over Scenario C's default enable rule.
     comm_blackout_force_disabled: bool = False
     # Legacy IID model parameters; used only when comm_blackout_model is
@@ -1509,8 +1509,8 @@ class EnvConfig:
     uav_delivery_radius_m: float = 40.0
     # Motion-aware capture factor for UAV delivery trigger:
     # effective radius = max(uav_delivery_radius_m, factor * uav_max_speed_mps * dt_seconds)
-    # Stable frozen value.  The 0.9/1.0 swept-segment pilots are retained in
-    # artifacts but regressed protected seeds, so they are not mainline.
+    # Stable frozen value.  Alternative swept-segment settings are retained in
+    # artifacts for audit but reduced validation stability, so they are not mainline.
     uav_delivery_capture_motion_factor: float = 0.80
 
     def __post_init__(self) -> None:

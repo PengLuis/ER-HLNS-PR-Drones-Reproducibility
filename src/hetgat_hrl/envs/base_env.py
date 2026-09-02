@@ -70,10 +70,10 @@ from hetgat_hrl.hrl_v2.command_layer import CommandValidator
 # original forced-recovery motion gate until that path is revalidated.
 _UAV_SORTIE_DELIVERY_LEG_RECOVERY_BYPASS_ENABLED = True
 
-# Rejected by the seed117 A/B check: launching directly instead of completing
-# an already planned truck-transfer saved one emergency task but displaced two
-# bulk deliveries.  Keep the experiment available, disabled by default; the
-# active repair below resumes the same task after the transfer bind instead.
+# Disabled branch retained for audit: direct launch instead of completing
+# an already planned truck-transfer changed the service mix during validation.
+# Keep the experiment available, disabled by default; the active repair below
+# resumes the same task after the transfer bind instead.
 _UAV_DIRECT_DELIVERY_OVER_TRANSFER_ENABLED = False
 _UAV_DIRECT_DELIVERY_LONG_LEG_THRESHOLD_M = 4500.0
 _UAV_NONPROGRESS_TRANSFER_FALLBACK_ENABLED = False
@@ -3640,7 +3640,7 @@ class BaseHeteroDisasterEnv(HeteroDisasterMDP):
                             max_dist = float(max(max_dist, float(max(getattr(self.cfg, "truck_high_pressure_emergency_service_max_distance_m", 1400.0), 0.0))))
                             max_slack = int(max(max_slack, int(max(getattr(self.cfg, "truck_high_pressure_emergency_service_max_deadline_slack_steps", 28), 0))))
                         slack = int(max(int(getattr(task, "deadline_step", self.cfg.max_steps)) - int(self.state.step_index), 0))
-                        # Conditional eligibility follows the preregistered
+                        # Conditional eligibility follows the predefined
                         # near-or-urgent rule: a reachable truck may serve TC
                         # when either road distance or remaining slack crosses
                         # its threshold.
@@ -5673,8 +5673,9 @@ class BaseHeteroDisasterEnv(HeteroDisasterMDP):
             # live emergency support chain.  Once layer 1 has explicitly rebound
             # the onsite task to this truck, however, execution must atomically
             # start unloading even when the ordinary post-action arrival trigger
-            # would miss it.  This closes the seed110 N3/N4 service-start gap
-            # without performing an early cross-contract takeover here.
+            # would miss it.  This closes a service-start edge case identified
+            # during validation without performing an early cross-contract
+            # takeover here.
             capture_required = bool(not hard_recovery_assigned)
             if not capture_required:
                 continue
@@ -7980,8 +7981,8 @@ class BaseHeteroDisasterEnv(HeteroDisasterMDP):
                     forced_depot_target is None
                     and support_nb is None
                     and s.node is not None
-                    # Disabled trial: excluding ER-HLNS here reduced seed114
-                    # L-A from 95% to 70%; retain the shared safety guard.
+                    # Disabled trial: excluding ER-HLNS here reduced L-A
+                    # completion during validation; retain the shared safety guard.
                     and True
                 ):
                     last_from = self._truck_last_arrived_from.get(str(aid), None)

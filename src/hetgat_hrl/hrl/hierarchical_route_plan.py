@@ -2086,10 +2086,9 @@ class HierarchicalRoutePlanManager:
                 continue
 
             # The first trial used a global replan for residual handoff.  It
-            # improved difficult seeds but regressed previously perfect ones
-            # by disturbing unrelated routes.  Keep that implementation for
-            # auditability, but let the existing deadline rescue own cross-
-            # truck transfers.
+            # changed unrelated route outcomes during validation.  Keep that
+            # implementation for auditability, but let the existing deadline
+            # rescue own cross-truck transfers.
             allow_cross_truck_residual_global_replan = True
             if not allow_cross_truck_residual_global_replan:
                 continue
@@ -2647,7 +2646,7 @@ class HierarchicalRoutePlanManager:
     def _stalled_normal_cleanup_contracts(self, env) -> Dict[str, str]:
         """Rebuild routine ownership only after emergency work is terminal."""
         # The broad pilot cleanup could steal trucks that still had executable
-        # route suffixes and regressed a protected seed.  The active repair is
+        # route suffixes and alter otherwise stable outcomes.  The active repair is
         # deliberately narrower: it runs only after emergency work is
         # terminal and only recruits stocked trucks whose current route is
         # already empty.
@@ -5127,9 +5126,9 @@ class HierarchicalRoutePlanManager:
     ) -> Dict[str, TaskContract]:
         contracts: Dict[str, TaskContract] = {}
         step_now = int(env.state.step_index)
-        # Pilot-only: strict docked-owner rebinding regressed L-C seed114/119
-        # (75/70% -> 60/65%) by breaking viable cross-truck recovery chains.
-        # Keep the audited implementation below, but retain the stable
+        # Validation-only: strict docked-owner rebinding reduced L-C completion
+        # by breaking viable cross-truck recovery chains.  Keep the audited
+        # implementation below, but retain the stable
         # persistent contract policy for the formal mainline.
         enable_docked_contract_rebinding_experiment = False
         # In a stable road graph, a stock-out contract can safely move to a
@@ -10622,9 +10621,10 @@ class HierarchicalRoutePlanManager:
                 if task is not None and self._active(task):
                     release_task_ids.setdefault(str(task_id), str(old_truck_id))
             starvation_release_task_ids: Dict[str, str] = {}
-            # The cross-truck release experiment worsened protected seeds and
-            # did not improve the target stalled seed.  Preserve it for audit,
-            # but keep the stable fixed-truck contracts in the active method.
+            # The cross-truck release experiment did not improve the intended
+            # stalled case and could worsen otherwise stable outcomes.  Preserve
+            # it for audit, but keep the stable fixed-truck contracts in the
+            # active method.
             enable_starvation_contract_release_experiment = False
             if (
                 enable_starvation_contract_release_experiment

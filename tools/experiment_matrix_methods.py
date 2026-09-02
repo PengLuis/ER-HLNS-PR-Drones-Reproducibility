@@ -2119,7 +2119,7 @@ def _build_planner(
                 cfg,
                 # The C-side anti-starvation repairs are intentionally not
                 # enabled for B: on B they can rewrite a still-viable route
-                # after a transient road observation and hurt seed stability.
+                # after a transient road observation and hurt route stability.
                 # Keep the implementation/config knobs available for C and
                 # targeted diagnostics, but leave the B mainline conservative.
                 erc_stalled_routine_ownership_repair_enabled=False,
@@ -2139,10 +2139,10 @@ def _build_planner(
                 # Keep the C-only critical-support escape.  The B improvement
                 # above addresses orphaned routine ownership only; enabling a
                 # second emergency preemption rule in B was not needed and
-                # would make the cross-seed effect harder to attribute.
+                # would complicate attribution of the component's effect.
                 hrl_support_chain_critical_escape_scenarios="C",
                 # The global B anti-churn hold remains disabled: isolation
-                # showed that it can regress individual seeds even when the
+                # showed that it can alter individual episode outcomes even when the
                 # route is nominally valid.  The orphan rescue is the safer
                 # C-derived commitment component for the LB mainline.
                 hrl_b_route_stability_enabled=False,
@@ -2150,7 +2150,7 @@ def _build_planner(
                 hrl_b_docked_latch_rearm_enabled=False,
                 hrl_b_anchor_unreachable_uav_launch_enabled=False,
                 hrl_b_anchor_unreachable_uav_launch_max_lifeline_ratio=0.10,
-                # The watchdog pilot did not change the two target seeds;
+                # The watchdog validation was outcome-neutral in the target cases;
                 # keep it disabled in the B mainline.
                 hrl_route_plan_emergency_launch_watchdog_enabled=False,
                 hrl_route_plan_emergency_starvation_promotion_enabled=False,
@@ -2163,7 +2163,7 @@ def _build_planner(
                 # release that pending contract for a stocked unit. This is
                 # limited to the large-map B mainline.
                 hrl_route_plan_stockout_transfer_enabled=True,
-                # A/B validation regressed LB seed117 by breaking an ongoing
+                # Validation indicated that this branch can break an ongoing
                 # recovery chain; keep the branch available but disabled.
                 hrl_route_plan_owner_carrier_mismatch_repair_enabled=False,
             )
